@@ -1,11 +1,12 @@
-package com.igor.appinovatec
+package com.igor.appinovatec.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.igor.appinovatec.R
 
-class telaCadastroUsuario : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tela_cadastro_usuario)
+        setContentView(R.layout.activity_main)
     }
 }
