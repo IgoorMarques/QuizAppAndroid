@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/backgroundTelaSplash">
+        <shape android:shape="rectangle"/>
+    </item>
+    <item android:gravity="center">
+        <shape android:shape="oval">
+            <size android:width="350dp" android:height="350dp"/>
+            <solid android:color="@color/white"/>
+        </shape>
+    </item>
+
+    <item android:gravity="center"
+        >
+        <shape android:shape="oval">
+            <size android:width="250dp" android:height="250dp"/>
+            <solid android:color="@color/backgroundTelaSplash"/>
+        </shape>
+    </item>
+
+    <item android:gravity="center">
+        <shape android:shape="oval">
+            <size android:width="150dp" android:height="150dp"/>
+            <solid android:color="@color/white"/>
+        </shape>
+    </item>
+    <item android:gravity="center" android:height="100dp" android:width="100dp">
+        <bitmap android:src="@drawable/checklist"/>
+    </item>
+
+</layer-list>

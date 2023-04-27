@@ -12,11 +12,13 @@
         android:theme="@style/Theme.AppInovatec"
         tools:targetApi="31">
         <activity
-            android:name=".views.MainActivity"
+            android:name=".TeleDeSelecaoUser_Rh"
             android:exported="false" />
         <activity
-            android:name=".views.telaCadastroUsuario"
-            android:exported="true">
+            android:name=".views.rotas"
+            android:exported="true"
+            android:label="@string/title_activity_rotas"
+            android:theme="@style/Theme.AppInovatec">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

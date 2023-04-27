@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundTelaSplash"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/software_developer" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="23dp" />
+
+        <Button
+            android:id="@+id/bt_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shapebuttons"
+            android:backgroundTint="@color/componentsColors"
+            android:gravity="center"
+            android:text="Usuário"
+            android:textColor="@color/TextColor"
+            android:textSize="30sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="80dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hr" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="23dp" />
+
+        <Button
+            android:id="@+id/bt_hr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shapebuttons"
+            android:backgroundTint="@color/componentsColors"
+            android:gravity="center"
+            android:text="HR"
+            android:textColor="@color/TextColor"
+            android:textSize="30sp" />
+
+
+    </LinearLayout>
+</LinearLayout>

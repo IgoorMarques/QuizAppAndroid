@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nevegacaodastelas"
+    app:startDestination="@id/telaDeCarregamento">
+
+    <activity
+        android:id="@+id/telaDeCarregamento"
+        android:name="com.igor.appinovatec.views.TelaDeCarregamento"
+        android:label="TelaDeCarregamento"/>
+
+    <activity
+        android:id="@+id/telaLogin"
+        android:name="com.igor.appinovatec.views.telaCadastroUsuario"
+        android:label="telaLogin"
+        />
+</navigation>

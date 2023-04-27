@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AppInovatec</string>
+    <string name="title_activity_tela_splash">telaSplash</string>
+    <string name="title_activity_tela_de_carregamento">TelaDeCarregamento</string>
+    <string name="title_activity_loading_animation">loadingAnimation</string>
+    <string name="title_activity_rotas">rotas</string>
 </resources>
