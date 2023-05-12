@@ -1,7 +1,8 @@
-package com.igor.appinovatec
+package com.igor.appinovatec.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.igor.appinovatec.R
 
 class TeleDeSelecaoUser_Rh : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

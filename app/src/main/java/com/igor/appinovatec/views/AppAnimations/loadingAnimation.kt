@@ -37,7 +37,7 @@ class LoadingAnimation : ComponentActivity() {
 
 @Composable
 fun LoadingAnimationApp(
-    circleSize: Dp = 25.dp,
+    circleSize: Dp = 18.dp,
     spaceBetween: Dp = 10.dp,
     travelDistance: Dp = 20.dp
 ) {

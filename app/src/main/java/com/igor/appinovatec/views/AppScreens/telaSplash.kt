@@ -44,8 +44,8 @@ fun IconTelaSplash(tela:Int){
         shape = CircleShape,
         modifier = Modifier
             .background(color = colorResource(id = R.color.backgroundTelaSplash))
-            .width(350.dp)
-            .height(350.dp)
+            .width(300.dp)
+            .height(300.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -60,22 +60,22 @@ fun IconTelaSplash(tela:Int){
                     Surface(shape = CircleShape, modifier = Modifier.align(Center)) {
                         Box(
                             modifier = Modifier
-                                .width(250.dp)
-                                .height(250.dp)
+                                .width(200.dp)
+                                .height(200.dp)
                                 .background(color = colorResource(id = R.color.backgroundTelaSplash))
                         ) {
                             Surface(shape = CircleShape, modifier = Modifier.align(Center)) {
                                 Box(
                                     modifier = Modifier
-                                        .width(150.dp)
-                                        .height(150.dp)
+                                        .width(100.dp)
+                                        .height(100.dp)
                                         .background(Color.White),
                                     Center
                                 ) {
                                     if(tela == 1) {
                                         Text(
                                             text = "SKILLSTER", fontWeight = FontWeight(400),
-                                            fontSize = 30.sp,
+                                            fontSize = 20.sp,
                                         )
                                     }else if(tela == 2){
                                         Image(painter = painterResource(id = R.drawable.checklist), contentDescription = null)
