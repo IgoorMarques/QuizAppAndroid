@@ -1,4 +1,4 @@
-package com.igor.appinovatec.views
+package com.igor.appinovatec.views.AppScreens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +31,7 @@ class telaSplash : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppInovatecTheme {
-                IconTelaSplash(tela = 1)
+                IconTelaSplash()
 
             }
         }
@@ -39,7 +40,7 @@ class telaSplash : ComponentActivity() {
 
 
 @Composable
-fun IconTelaSplash(tela:Int){
+fun IconTelaSplash() {
     Surface(
         shape = CircleShape,
         modifier = Modifier
@@ -58,6 +59,7 @@ fun IconTelaSplash(tela:Int){
 
                 ) {
                     Surface(shape = CircleShape, modifier = Modifier.align(Center)) {
+
                         Box(
                             modifier = Modifier
                                 .width(200.dp)
@@ -72,14 +74,10 @@ fun IconTelaSplash(tela:Int){
                                         .background(Color.White),
                                     Center
                                 ) {
-                                    if(tela == 1) {
-                                        Text(
-                                            text = "SKILLSTER", fontWeight = FontWeight(400),
-                                            fontSize = 20.sp,
-                                        )
-                                    }else if(tela == 2){
-                                        Image(painter = painterResource(id = R.drawable.checklist), contentDescription = null)
-                                    }
+                                    Image(
+                                        painter = painterResource(id = R.drawable.checklist),
+                                        contentDescription = null
+                                    )
                                 }
                             }
                         }
@@ -90,10 +88,11 @@ fun IconTelaSplash(tela:Int){
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     AppInovatecTheme {
-        IconTelaSplash(1)
+        IconTelaSplash()
     }
 }

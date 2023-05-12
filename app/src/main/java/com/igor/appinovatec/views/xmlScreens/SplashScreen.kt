@@ -1,4 +1,4 @@
-package com.igor.appinovatec.views
+package com.igor.appinovatec.views.xmlScreens
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

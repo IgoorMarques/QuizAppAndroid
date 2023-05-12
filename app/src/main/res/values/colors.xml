@@ -11,4 +11,6 @@
     <color name="TextColor">#415070</color>
     <color name="backgroundTelaSplash">#415070</color>
     <color name="backgroundTelaUser">#F1EDE2</color>
+    <color name="backgroundTelaQuiz">#FFFFFF</color>
+    <color name="buttonSelected">#AAA1A1</color>
 </resources>

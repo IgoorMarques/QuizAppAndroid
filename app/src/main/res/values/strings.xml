@@ -4,4 +4,9 @@
     <string name="title_activity_tela_de_carregamento">TelaDeCarregamento</string>
     <string name="title_activity_loading_animation">loadingAnimation</string>
     <string name="title_activity_rotas">rotas</string>
+    <string name="title_activity_tela_do_usuario">tela_do_usuario</string>
+    <string name="title_activity_tela_novo_quiz">tela_novo_quiz</string>
+    <string name="title_activity_tela_perfil_user">telaPerfilUser</string>
+    <string name="title_activity_screen_quiz_finished">screenQuizFinished</string>
+    <string name="title_activity_tela_de_resultados">tela_de_resultados</string>
 </resources>

@@ -1,125 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTelaUser"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".views.telaCadastroUsuario">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="102dp"
-        android:src="@drawable/software_developer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="Usuário"
-        android:textColor="@color/TextColor"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@id/textInputLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
 
-    <Button
-        android:id="@+id/btEntrar"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="13dp"
-        android:text="Entrar"
-        android:textColor="@color/TextColor"
-        android:backgroundTint="@color/componentsColors"
-        android:background="@drawable/shapebuttons"
-        app:layout_constraintBottom_toTopOf="@id/bt_cadastro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputSenha"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/software_developer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    <Button
-        android:id="@+id/bt_cadastro"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:background="@drawable/background_buttons"
-        android:fontFamily="@font/abel"
-        android:text="cadastre-se"
-        android:textColor="@color/TextColor"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@id/bt_esqueciSenha"
-        app:layout_constraintStart_toStartOf="@+id/btEntrar"
-        app:layout_constraintTop_toBottomOf="@id/btEntrar" />
-
-    <Button
-        android:id="@+id/bt_esqueciSenha"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="13dp"
-        android:background="@drawable/background_buttons"
-        android:fontFamily="@font/abel"
-        android:text="Esqueci a senha"
-        android:textColor="@color/TextColor"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/btEntrar"
-        app:layout_constraintStart_toEndOf="@id/bt_cadastro"
-        app:layout_constraintTop_toBottomOf="@id/btEntrar" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLogin"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:backgroundTint="@color/componentsColors"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:boxCornerRadiusBottomEnd="27dp"
-        app:boxCornerRadiusBottomStart="27dp"
-        app:boxCornerRadiusTopEnd="27dp"
-        app:boxCornerRadiusTopStart="27dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Login" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputSenha"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        app:boxCornerRadiusBottomEnd="27dp"
-        app:boxCornerRadiusBottomStart="27dp"
-        app:boxCornerRadiusTopEnd="27dp"
-        app:boxCornerRadiusTopStart="27dp"
-        app:layout_constraintBottom_toTopOf="@+id/btEntrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLogin">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Usuário"
             android:textColor="@color/TextColor"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@id/textInputLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLogin"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Senha" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:backgroundTint="@color/componentsColors"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:hint="Login" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputSenha"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            app:boxCornerRadiusBottomEnd="27dp"
+            app:boxCornerRadiusBottomStart="27dp"
+            app:boxCornerRadiusTopEnd="27dp"
+            app:boxCornerRadiusTopStart="27dp"
+            app:hintTextColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/btEntrar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLogin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Senha"
+                android:textSize="16sp"
+                android:textColor="@color/TextColor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btEntrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/shapebuttons"
+            android:backgroundTint="@color/componentsColors"
+            android:text="Entrar"
+            android:textSize="16sp"
+            android:textColor="@color/TextColor"
+            app:layout_constraintBottom_toTopOf="@id/bt_cadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputSenha" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/bt_cadastro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/background_buttons"
+                android:fontFamily="@font/abel"
+                android:text="cadastre-se"
+                android:textColor="@color/TextColor"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/bt_esqueciSenha"
+                app:layout_constraintStart_toStartOf="@+id/btEntrar"
+                app:layout_constraintTop_toBottomOf="@id/btEntrar" />
+
+            <Button
+                android:id="@+id/bt_esqueciSenha"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="13dp"
+                android:layout_weight="0.3"
+                android:background="@drawable/background_buttons"
+                android:fontFamily="@font/abel"
+                android:text="Esqueci a senha"
+                android:textColor="@color/TextColor"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/btEntrar"
+                app:layout_constraintStart_toEndOf="@id/bt_cadastro"
+                app:layout_constraintTop_toBottomOf="@id/btEntrar" />
+        </LinearLayout>
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
