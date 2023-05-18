@@ -41,12 +41,11 @@ fun OvervierQuizScreen(
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
             CabecalhoTelaResultados(btFechar)
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .padding(horizontal = 10.dp)
                     .fillMaxWidth()
             ) {
                 Text(
@@ -76,7 +75,7 @@ fun OvervierQuizScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.95f)
-                    .fillMaxHeight(0.9f)
+                    .fillMaxHeight()
             ) {
                 QuizQuestionResult(
                     questao = questao,
@@ -132,19 +131,19 @@ fun CabecalhoTelaResultados(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxHeight(0.20f),
-                verticalArrangement = Arrangement.spacedBy(15.dp)
+                verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                Spacer(modifier = Modifier)
+                Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = "Data Science",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier.padding(top = 2.dp)
                 )
                 Text(
                     text = "Feito em 22/10/23 às 14:50",
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.padding(2.dp)
                 )
                 Text(
                     text = "Resultado: 5/10",
@@ -205,10 +204,13 @@ fun QuizQuestionResult(
                                 .background(
                                     color = if (opcaoSelecionada == opcao)
                                         if (opcaoSelecionada == questao.alternativaCorreta)
-                                        Teal200 else
-                                        Color.Red else backGround
+                                            Teal200 else
+                                            Color.Red else backGround
                                 )
-                                .border(width = if (questao.alternativaCorreta == opcao) 3.dp else (-1).dp, color = Teal200)
+                                .border(
+                                    width = if (questao.alternativaCorreta == opcao) 3.dp else (-1).dp,
+                                    color = Teal200
+                                )
                                 .padding(horizontal = 20.dp)
                                 .fillMaxWidth()
                                 .heightIn(min = 50.dp),
@@ -224,7 +226,7 @@ fun QuizQuestionResult(
                                     )
                                 }
                                 Text(
-                                    text = "1 - $opcao",
+                                    text = opcao,
                                     modifier = Modifier
                                         .padding(
                                             start = 8.dp,
@@ -238,9 +240,9 @@ fun QuizQuestionResult(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(40.dp))
             }
         }
-        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 

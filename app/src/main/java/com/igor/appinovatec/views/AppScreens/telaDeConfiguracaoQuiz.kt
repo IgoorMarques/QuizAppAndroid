@@ -3,28 +3,25 @@ package com.igor.appinovatec.views.AppScreens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.igor.appinovatec.R
-import com.igor.appinovatec.data.areasQuiz
+import com.igor.appinovatec.data.*
 import com.igor.appinovatec.model.QuizItem
+import com.igor.appinovatec.model.TelaConfigButton
 import com.igor.appinovatec.views.ui.theme.Teal200
 import com.igor.appinovatec.views.ui.theme.backGround
 
@@ -32,14 +29,14 @@ import com.igor.appinovatec.views.ui.theme.backGround
 @Composable
 fun TelaConfigQuiz(
     itemQuiz: QuizItem,
-    valorLinha: Float,
-    valorLinhaTempo: Float,
-    modifier: Modifier,
-    modifierTempo: Modifier,
     selectedBtLevel: String,
-    btLevelJunior: () -> Unit,
-    btLevelPleno: () -> Unit,
-    btLevelSenior: () -> Unit,
+    selectedBtQtdQuestoes: String,
+    selectedBtTempoQuestao: String,
+    selectedQuizConfig: String,
+    btQuizConfigClicked: (TelaConfigButton) -> Unit,
+    btTempoClicked: (TelaConfigButton) -> Unit,
+    btLevelClicked: (TelaConfigButton) -> Unit,
+    btQtdQuestoesClicked: (TelaConfigButton) -> Unit,
     btCancelar: () -> Unit,
     btConfirmar: () -> Unit
 ) {
@@ -52,7 +49,7 @@ fun TelaConfigQuiz(
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(5.dp))
             Column(
@@ -70,91 +67,50 @@ fun TelaConfigQuiz(
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                Text(
-                    text = "Nível de experiência",
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = if (selectedBtLevel == "junior") Color.Cyan
-                                else backGround
-                            )
-                            .clickable {
-                                btLevelJunior()
-                            }
-                    ) {
-                        Text(
-                            text = "Junior",
-                            fontSize = 18.sp,
-                            modifier = Modifier
-                                .padding(10.dp)
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(text = "Nível de experiência")
+                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                    btLevelTelaConfig.forEach { bt ->
+                        TelaConfigButtons(
+                            selectedBtLevel = selectedBtLevel,
+                            telaConfigButton = bt,
+                            btClicked = { btLevelClicked(bt) })
+                    }
+                }
+                Text(text = "Número de questões")
+                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                    btQtdQuestoesTelaConfig.forEach { bt ->
+                        TelaConfigButtons(
+                            selectedBtLevel = selectedBtQtdQuestoes,
+                            telaConfigButton = bt,
+                            btClicked = { btQtdQuestoesClicked(bt) }
                         )
                     }
-
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = if (selectedBtLevel == "pleno") Color.Cyan
-                                else backGround
-                            )
-                            .clickable { btLevelPleno() }
-                    ) {
-                        Text(
-                            text = "Pleno", modifier = Modifier.padding(10.dp),
-                            fontSize = 18.sp
+                }
+                Text(text = "Tempo de resposta por questão")
+                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                    btTempoTelaConfig.forEach { bt ->
+                        TelaConfigButtons(
+                            selectedBtLevel = selectedBtTempoQuestao,
+                            telaConfigButton = bt,
+                            btClicked = { btTempoClicked(bt) }
                         )
                     }
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = if (selectedBtLevel == "senior")
-                                    Color.Cyan
-                                else
-                                    backGround
-                            )
-                            .clickable { btLevelSenior() }
-                    ) {
-                        Text(
-                            text = "Senior",
-                            modifier = Modifier.padding(10.dp),
-                            fontSize = 18.sp,
-                        )
+                }
+                Text(text = "Deseja iniciar")
+                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                    btQuizConfig.forEach { bt ->
+                        TelaConfigButtons(selectedBtLevel = selectedQuizConfig,
+                            telaConfigButton = bt,
+                            btClicked = { btQuizConfigClicked(bt) })
                     }
-                    Spacer(modifier = Modifier.width(10.dp))
                 }
             }
-            Column {
-
-                Text(
-                    text = "Número de questões do teste",
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                LinhaDeslizante(20, modifier, valorLinha)
-            }
-            Column {
-                Text(
-                    text = "Tempo por questão",
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                LinhaDeslizante(60, modifierTempo, valorLinhaTempo)
-            }
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+                modifier = Modifier,
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+
             ) {
                 Surface(shape = RoundedCornerShape(100)) {
                     Box(
@@ -175,19 +131,14 @@ fun TelaConfigQuiz(
                     }
                 }
                 Surface(shape = RoundedCornerShape(100)) {
-                    val sucessefull = (((valorLinha) / 950 * 20).toInt() >= 5)
-                        .and((valorLinhaTempo / 950 * 60).toInt() >= 10)
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(fraction = .5f)
                             .background(
-                                color = if (sucessefull)
                                     Color.Green
-                                else
-                                    backGround
                             )
                             .padding(10.dp)
-                            .clickable(enabled = sucessefull) { btConfirmar() }
+                            .clickable{ btConfirmar() }
                     ) {
                         Text(
                             text = "Confirmar", color = Color.White, fontSize = 16.sp,
@@ -205,44 +156,30 @@ fun TelaConfigQuiz(
 
 
 @Composable
-fun LinhaDeslizante(maxValor: Int, modifier: Modifier, valorLinha: Float) {
-
-    Surface() {
+fun TelaConfigButtons(
+    selectedBtLevel: String,
+    telaConfigButton: TelaConfigButton,
+    btClicked: () -> Unit
+) {
+    Surface(shape = RoundedCornerShape(100)) {
         Box(
-            modifier
-                .background(backGround)
-                .fillMaxWidth(fraction = 950f / 950f),
-            contentAlignment = Alignment.CenterStart
+            modifier = Modifier
+                .widthIn(min = 80.dp)
+                .background(
+                    color = if (selectedBtLevel == telaConfigButton.name) Teal200
+                    else backGround
+                )
+                .clickable {
+                    btClicked()
+                },
+            contentAlignment = Center
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(fraction = valorLinha/950)
-                        .fillMaxHeight()
-                        .background(Teal200),
-                    contentAlignment = Alignment.CenterStart
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(100),
-                        modifier = Modifier.offset(x = 20.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(30.dp)
-                                .background(colorResource(id = R.color.backgroundTelaSplash)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "${((valorLinha) / 950 * maxValor).toInt()}",
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
-                }
-            }
-
+            Text(
+                text = telaConfigButton.name,
+                fontSize = 18.sp,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
         }
     }
 }

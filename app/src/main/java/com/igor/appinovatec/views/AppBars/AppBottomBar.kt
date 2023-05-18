@@ -38,7 +38,7 @@ fun ScaffolBottomBar(
             .padding(12.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+       horizontalArrangement = Arrangement.SpaceAround
     ) {
         itens.forEach { item ->
             AppBarItem(itemBarItem = item,
@@ -46,7 +46,6 @@ fun ScaffolBottomBar(
                 onClick = { itemChange(item) }
             )
         }
-
     }
 }
 
@@ -69,5 +68,6 @@ fun AppBarItem(
         )
         Text(text = itemBarItem.dica, color = Color.White, fontSize = 10.sp)
     }
+
 }
 

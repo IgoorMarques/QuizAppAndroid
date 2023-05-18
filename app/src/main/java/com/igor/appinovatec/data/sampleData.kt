@@ -6,8 +6,8 @@ import androidx.compose.material.icons.rounded.ExitToApp
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
 import com.igor.appinovatec.R
-import com.igor.appinovatec.model.HomeContentItem
 import com.igor.appinovatec.model.QuizItem
+import com.igor.appinovatec.model.TelaConfigButton
 import com.igor.appinovatec.views.AppBars.BarItem
 import com.igor.appinovatec.views.AppScreens.ItemMenuMainScreen
 
@@ -35,27 +35,67 @@ val bottomBarItens = listOf(
     )
 )
 
+val btLevelTelaConfig = listOf(
+    TelaConfigButton(
+        name = "Junior"
+    ),
+    TelaConfigButton(
+        name = "Pleno"
+    ),
+    TelaConfigButton(
+        name = "Senior"
+    )
+)
+
+val btQtdQuestoesTelaConfig = listOf(
+    TelaConfigButton(
+        name = "10"
+    ),
+    TelaConfigButton(
+        name = "20"
+    ),
+    TelaConfigButton(
+        name = "30"
+    )
+)
+
+val btTempoTelaConfig = listOf(
+    TelaConfigButton(
+        name = "10"
+    ),
+    TelaConfigButton(
+        name = "15"
+    ),
+    TelaConfigButton(
+        name = "20"
+    )
+)
+
+val btQuizConfig = listOf(
+    TelaConfigButton(
+        name = "Agora"
+    ),
+    TelaConfigButton(
+        name = "Depois"
+    )
+)
+
 
 val menuMainScreenItens = listOf(
     ItemMenuMainScreen(
         "Treinamento",
-        "pendenteScreen"
+        AppRotas.HOME_emAndamento
     ),
     ItemMenuMainScreen(
         "Recebido",
-        "emAndamentoScreen"
+        AppRotas.HOME_PENDENTE
     ),
     ItemMenuMainScreen(
         "Historico",
-        "historicoScreen"
+        AppRotas.HOME_HISTORICO
     )
 )
 
-val menuEmAndamentoItens = listOf<HomeContentItem>()
-
-val menuConcluidoItens = listOf<HomeContentItem>()
-
-val menuPendenteItens = listOf<HomeContentItem>()
 
 val areasQuiz = listOf(
     QuizItem(

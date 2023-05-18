@@ -1,15 +1,14 @@
 package com.igor.appinovatec.controllers.AppRotas
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -22,15 +21,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.igor.appinovatec.R
 import com.igor.appinovatec.data.*
 import com.igor.appinovatec.model.HomeContentItem
 import com.igor.appinovatec.model.QuizQuestions
@@ -41,10 +37,10 @@ import com.igor.appinovatec.views.AppScreens.*
 import com.igor.appinovatec.views.conversaoXmlToCompose.TelaDeLogin
 import com.igor.appinovatec.views.ui.theme.AppInovatecTheme
 import com.igor.appinovatec.views.ui.theme.Teal200
-import com.igor.appinovatec.views.ui.theme.backGround
 import kotlinx.coroutines.delay
 
 class rotas : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -95,8 +91,8 @@ class rotas : ComponentActivity() {
     }
 }
 
-var dadosMenuConcluidoItens = historicoQuiz
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -118,17 +114,6 @@ fun AppNavigation(navController: NavHostController) {
                 val contentItem: QuizQuestions? = null
                 mutableStateOf(contentItem)
             }
-            val dataContent = remember {
-                val data = historicoQuiz
-                mutableStateOf(data)
-            }
-            if (homeItemSelected.value.rota == AppRotas.HOME_PENDENTE) {
-                dataContent.value = userQuizes
-            } else if (homeItemSelected.value.rota == AppRotas.HOME_emAndamento) {
-                dataContent.value = quizesRecebidos
-            } else if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
-                dataContent.value = historicoQuiz
-            }
             val itemSelecionado = remember {
                 val item: QuizQuestions? = null
                 mutableStateOf(item)
@@ -136,72 +121,112 @@ fun AppNavigation(navController: NavHostController) {
             val mostrarTelaAviso = remember {
                 mutableStateOf(false)
             }
+            val msgTelaPrincipal = remember {
+                mutableStateOf("Não há quizzis por aqui")
+            }
+
             TelaPrincipal(menuItemSelected = homeItemSelected.value,
                 onMenuItemSelectedChange = {
                     if (it.rota == AppRotas.HOME_emAndamento) {
                         homeItemSelected.value = it
-                    } else if (it.rota == AppRotas.HOME_PENDENTE) {
+                        msgTelaPrincipal.value = "Não há quizzis por aqui"
+                    }
+                    if (it.rota == AppRotas.HOME_PENDENTE) {
                         homeItemSelected.value = it
-                    } else if (it.rota == AppRotas.HOME_HISTORICO) {
+                        msgTelaPrincipal.value = "Nada recebido por enquanto"
+                    }
+                    if (it.rota == AppRotas.HOME_HISTORICO) {
                         homeItemSelected.value = it
+                        msgTelaPrincipal.value = "Nada feito até agora"
                     }
                 }
             ) {
-                if (dataContent.value.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .height(
-                                300.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                if (homeItemSelected.value.rota == AppRotas.HOME_emAndamento) {
+                    if (userQuizes.isEmpty()) {
+                        EmptyConteudo(
+                            msgTelaPrincipal = msgTelaPrincipal.value,
+                            homeItemSelected = homeItemSelected.value.rota
                         ) {
-                            Icon(Icons.Filled.Info, "status",
-                            tint = Color.Yellow, modifier = Modifier.size(100.dp))
-                            Text(text = "Não há quizzis por aqui")
-                            Text(text = "Gerar novo quiz")
-                            Icon(Icons.Rounded.Add, contentDescription = "NovoQuiz",
-                                modifier = Modifier.clickable {
-                                    navController.navigate(AppRotas.NOVO_QUIZ_SCREEN)
-                                })
+                            navController.navigate(AppRotas.NOVO_QUIZ_SCREEN)
                         }
-
-                    }
-                } else {
-                    dataContent.value.forEach { item ->
-                        if (item.infoQuiz != null) {
-                            TelaItem(item = item.infoQuiz, onClick = {
-                                if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
-                                    navController.navigate("${AppRotas.TELA_RESULTADOS}/${item.id}")
-                                } else {
-                                    mostrarTelaAviso.value = true
-                                    itemSelecionado.value = item
-                                }
-                            },
-                                onDeleteClick = {
-                                    showAlertDialog.value = true
-                                    contentItemSelected.value = item
-                                }
-                            )
+                    } else if (homeItemSelected.value.rota == AppRotas.HOME_emAndamento) {
+                        userQuizes.forEach { item ->
+                            if (item.infoQuiz != null) {
+                                TelaItem(item = item.infoQuiz, onClick = {
+                                    if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
+                                        navController.navigate("${AppRotas.TELA_RESULTADOS}/${item.id}")
+                                    } else {
+                                        mostrarTelaAviso.value = true
+                                        itemSelecionado.value = item
+                                    }
+                                },
+                                    onDeleteClick = {
+                                        showAlertDialog.value = true
+                                        contentItemSelected.value = item
+                                    }
+                                )
+                            }
                         }
                     }
                 }
+                else if (homeItemSelected.value.rota == AppRotas.HOME_PENDENTE) {
+                    if (quizesRecebidos.isEmpty()) {
+                        EmptyConteudo(
+                            msgTelaPrincipal = msgTelaPrincipal.value,
+                            homeItemSelected = homeItemSelected.value.rota
+                        ) {
 
+                        }
+                    } else {
+                        quizesRecebidos.forEach { item ->
+                            item.infoQuiz?.let { it1 ->
+                                TelaItem(item = it1, onClick = { /*TODO*/ },
+                                    onDeleteClick = {
+                                        showAlertDialog.value = true
+                                        contentItemSelected.value = item
+                                    })
+                            }
+                        }
+                    }
+                }
+                else if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
+                    if (historicoQuiz.isEmpty()) {
+                        EmptyConteudo(
+                            msgTelaPrincipal = msgTelaPrincipal.value,
+                            homeItemSelected = homeItemSelected.value.rota
+                        ) {}
+                    } else {
+                        historicoQuiz.forEach { item ->
+                            item.infoQuiz?.let { it1 ->
+                                TelaItem(item = it1,
+                                    onClick = { navController.navigate("${AppRotas.TELA_RESULTADOS}/${it.id}") },
+                                    onDeleteClick = {
+                                        showAlertDialog.value = true
+                                        contentItemSelected.value = item
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
                 if (showAlertDialog.value.and(contentItemSelected.value != null)) {
+                    contentItemSelected.value?.infoQuiz?.let { it1 -> Log.i("valorHomeItem", it1.rota) }
                     ConfirmationDialog(message = "Tem certeza que deseja remover esse item?",
                         onDismiss = {
                             showAlertDialog.value = false
                         },
                         onConfirm = {
-                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_PENDENTE) {
+
+                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_emAndamento) {
                                 userQuizes.remove(contentItemSelected.value)
-                            } else if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_emAndamento) {
+                            }
+                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_PENDENTE) {
                                 quizesRecebidos.remove(contentItemSelected.value)
-                            } else if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_HISTORICO) {
+                            }
+                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_HISTORICO) {
                                 historicoQuiz.remove(contentItemSelected.value)
                             }
+                            showAlertDialog.value = false
                         }
                     )
                 }
@@ -240,13 +265,14 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable("${AppRotas.QUIZ_QUESTIONS}/{id}") { navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getString("id")
-            val quizAtual = quizes.firstOrNull { it.id == id }
+            val quizAtual = userQuizes.firstOrNull { it.id == id }
             if (quizAtual != null) {
                 val isCheckboxSelected = remember { mutableStateOf(false) }
                 val tempo = remember {
                     val time = quizAtual.timePorQuestao.toLong()
                     mutableStateOf(time)
                 }
+                Log.i("tempoQuiz", "${tempo.value}")
                 val podeResponder = remember { mutableStateOf(false) }
 
                 LaunchedEffect(key1 = podeResponder.value) {
@@ -337,7 +363,7 @@ fun AppNavigation(navController: NavHostController) {
                         },
                     ) {
                         if (questaoIndex.value >= totalQuestoes.value) {
-                            LaunchedEffect(key1 = Unit){
+                            LaunchedEffect(key1 = Unit) {
                                 historicoQuiz.add(
                                     QuizQuestions(
                                         id = quizAtual.id,
@@ -355,6 +381,7 @@ fun AppNavigation(navController: NavHostController) {
                                         )
                                     )
                                 )
+
                             }
                             Box(
                                 modifier = Modifier
@@ -364,12 +391,15 @@ fun AppNavigation(navController: NavHostController) {
 
                             }
                             CustomDialog(btContinuar = {
+                                userQuizes.remove(quizAtual)
                                 navController.navigate(AppRotas.HOME_USER)
                             },
                                 btQuestoes = {
+                                    userQuizes.remove(quizAtual)
                                     navController.navigate("${AppRotas.TELA_RESULTADOS}/${quizAtual.id}")
                                 },
                                 onDismiss = {})
+
                         }
                     }
                 }
@@ -388,88 +418,69 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable("${AppRotas.TELA_DE_CONFIGURACAO_QUIZ}/{areaId}") { navBackStackEntry ->
             val btNivelSelected = remember {
-                val status = "junior"
+                val status = btLevelTelaConfig.first().name
                 mutableStateOf(status)
             }
-            val valorLinhaTempo = remember {
-                mutableStateOf(160.3333f)
+            val btQtdQuestoesSelected = remember {
+                val status = btQtdQuestoesTelaConfig.first().name
+                mutableStateOf(status)
             }
-            val valorLinha = remember {
-                mutableStateOf(475f)
+            val btTempoSelected = remember {
+                val status = btTempoTelaConfig.first().name
+                mutableStateOf(status)
             }
-            if (valorLinha.value < 475f) {
-                valorLinha.value = 475f
-            } else if (valorLinha.value > 950) {
-                valorLinha.value = 950f
+            val btQuizConfigSelected = remember {
+                val status = btQuizConfig.first().name
+                mutableStateOf(status)
             }
-            if (valorLinhaTempo.value < 160.33333f) {
-                valorLinhaTempo.value = 160.33333f
-            } else if (valorLinhaTempo.value > 950) {
-                valorLinhaTempo.value = 950f
-            }
-            val meuModifer = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .background(if (valorLinha.value > 0) Color.Cyan else backGround)
-                .pointerInput(Unit) {
-                    detectDragGestures { _, dragAmount ->
-                        if ((valorLinha.value >= 475f).and(valorLinha.value <= 950f)) {
-                            valorLinha.value += dragAmount.x
-                        } else {
-                            if (dragAmount.x > 0f) {
-                                valorLinha.value += dragAmount.x
-                            }
-                        }
-                    }
-                }
-            val meuModiferTempo = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .background(if (valorLinhaTempo.value > 0) Color.Cyan else backGround)
-                .pointerInput(Unit) {
-                    detectDragGestures { _, dragAmount ->
-                        if ((valorLinhaTempo.value >= 160.3333f).and(valorLinhaTempo.value <= 950f)) {
-                            valorLinhaTempo.value += dragAmount.x
-                        } else {
-                            if (dragAmount.x > 0f) {
-                                valorLinha.value += dragAmount.x
-                            }
-                        }
-                    }
-                }
             val id = navBackStackEntry.arguments?.getString("areaId")
             if (id != null) {
                 val item = areasQuiz.find { it.id == id }
                 if (item != null) {
                     TelaConfigQuiz(
                         itemQuiz = item,
-                        modifier = meuModifer,
-                        modifierTempo = meuModiferTempo,
-                        valorLinha = valorLinha.value,
-                        valorLinhaTempo = valorLinhaTempo.value,
                         selectedBtLevel = btNivelSelected.value,
-                        btLevelJunior = { btNivelSelected.value = "junior" },
-                        btLevelPleno = { btNivelSelected.value = "pleno" },
-                        btLevelSenior = { btNivelSelected.value = "senior" },
+                        selectedBtQtdQuestoes = btQtdQuestoesSelected.value,
+                        selectedBtTempoQuestao = btTempoSelected.value,
+                        selectedQuizConfig = btQuizConfigSelected.value,
+                        btLevelClicked = { btNivelSelected.value = it.name },
+                        btTempoClicked = { btTempoSelected.value = it.name },
+                        btQuizConfigClicked = { btQuizConfigSelected.value = it.name },
                         btCancelar = { navController.navigate(AppRotas.NOVO_QUIZ_SCREEN) },
-                        btConfirmar = {
-                            quizes.add(
-                                QuizQuestions(
+                        btQtdQuestoesClicked = { btQtdQuestoesSelected.value = it.name }
+                    ) {
+                        userQuizes.add(
+                            QuizQuestions(
+                                id = item.id,
+                                assunto = item.nome,
+                                timePorQuestao = btTempoSelected.value.toInt(),
+                                qtdQuestoes = btQtdQuestoesSelected.value.toInt(),
+                                infoQuiz = HomeContentItem(
                                     id = item.id,
+                                    title = if (btQuizConfigSelected.value == btQuizConfig.first().name) "Iniciado" else "Não iniciado",
                                     assunto = item.nome,
-                                    timePorQuestao = (valorLinhaTempo.value / 950 * 60).toInt(),
-                                    qtdQuestoes = (valorLinha.value / 950 * 20).toInt()
+                                    quizStatus = "Questões: 0/${btQtdQuestoesSelected.value}",
+                                    data = dataHoraAtual(),
+                                    bt_action = "Iniciar",
+                                    rota = AppRotas.HOME_emAndamento
                                 )
                             )
+                        )
+                        if (btQuizConfigSelected.value == btQuizConfig.first().name) {
                             navController.navigate("${AppRotas.QUIZ_QUESTIONS}/${item.id}")
+                        } else {
+                            navController.navigate(AppRotas.HOME_USER)
                         }
-                    )
+                    }
                 }
             }
         }
-        composable("${AppRotas.TELA_RESULTADOS}/{id}") {
+        composable("${AppRotas.TELA_RESULTADOS}/{id}") { it ->
             val id = it.arguments?.getString("id")
             val quizAtual = historicoQuiz.firstOrNull { it.id == id }
+            if (quizAtual != null) {
+                Log.i("idTelaResults", quizAtual.id)
+            }
             val alternativasSelecionadas = quizAtual?.alternativasSelecionadas
             val questoes = quizAtual?.questoes()
 
@@ -556,6 +567,37 @@ fun SkillsterApp(
     ) {
         Box(modifier = Modifier.padding(it)) {
             content()
+        }
+
+    }
+}
+
+
+@Composable
+fun EmptyConteudo(msgTelaPrincipal: String, homeItemSelected: String, novoQuiz: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .height(
+                300.dp
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                Icons.Filled.Info, "status",
+                tint = Color.Yellow, modifier = Modifier.size(100.dp)
+            )
+            Text(text = msgTelaPrincipal)
+            if (homeItemSelected == AppRotas.HOME_emAndamento) {
+                Text(text = "Gerar novo quiz")
+                Icon(Icons.Rounded.Add, contentDescription = "NovoQuiz",
+                    modifier = Modifier.clickable {
+                        novoQuiz()
+                    })
+            }
         }
 
     }
