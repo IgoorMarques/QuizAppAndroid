@@ -1,14 +1,10 @@
 package com.igor.appinovatec.views.AppScreens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,8 +33,8 @@ fun MultipleChoiceQuestion(
     quandoMarcadaOpcao: (String) -> Unit,
     btAvancar: () -> Unit,
     btResponder: () -> Unit,
-    content: @Composable () -> Unit
-) {
+    content: @Composable () -> Unit,
+    ) {
     val cores = if (tempoAtual <= 5L) if (tempoAtual % 2 == 0L) Color.Red else backGround
     else backGround
     Box(
@@ -162,8 +158,7 @@ fun QuizSection(
     botaoAvancar: () -> Unit,
     botaoResponder: () -> Unit,
     questaoAtual: Int,
-
-) {
+    ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -183,7 +178,7 @@ fun QuizSection(
                 ) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "$questaoAtual.",
+                        text = "$questaoAtual",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -200,7 +195,6 @@ fun QuizSection(
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    var contador = 1
                     Spacer(modifier = Modifier)
                     options?.forEach { option ->
                         Surface(
@@ -221,14 +215,13 @@ fun QuizSection(
                                 contentAlignment = Alignment.CenterStart
                             ) {
                                 Text(
-                                    text = "$contador. $option",
+                                    text = option,
                                     modifier = Modifier
                                         .padding(start = 8.dp),
                                     color = if (isCheckboxSelected.and(selectedOption == option)) Color.White else Color.Black
                                 )
                             }
                         }
-                        contador = +1
                     }
                     Spacer(modifier = Modifier.height(100.dp))
                 }

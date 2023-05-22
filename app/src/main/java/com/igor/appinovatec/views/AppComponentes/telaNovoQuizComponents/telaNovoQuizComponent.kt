@@ -21,21 +21,22 @@ import com.igor.appinovatec.model.QuizItem
 import com.igor.appinovatec.views.ui.theme.azulItemTelaQuiz
 
 @Composable
-fun ComponenteTelaAreas(quizItem: QuizItem, onClick:() -> Unit) {
+fun ComponenteTelaAreas(quizItem: QuizItem, onClick: () -> Unit) {
     Surface(
         shape = RoundedCornerShape(10.dp),
         elevation = 15.dp,
-        modifier = Modifier.clickable { onClick() }
     ) {
         Column(
             Modifier
                 .background(Color.White)
-                .size(200.dp),
+                .size(200.dp)
+                .clickable { onClick() },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 painter = painterResource(id = quizItem.image), contentDescription = "Data Scienc",
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier
+                    .size(150.dp)
                     .padding(8.dp),
                 contentScale = ContentScale.Crop
             )

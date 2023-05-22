@@ -9,6 +9,7 @@ data class HomeContentItem(
     val quizStatus: String,
     val data: String,
     val rota: String = AppRotas.HOME_emAndamento,
-    val bt_action:String = "Continuar",
-    val quizTpo: String = "Em andamento"
+    val bt_action: String = "Continuar",
+    val quizTpo: String = "",
+    val item: QuizItem? = null
 )

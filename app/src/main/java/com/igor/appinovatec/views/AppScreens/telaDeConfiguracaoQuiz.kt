@@ -1,8 +1,9 @@
 package com.igor.appinovatec.views.AppScreens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,18 +48,21 @@ fun TelaConfigQuiz(
             .padding(horizontal = 10.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState(0)),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(5.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = CenterHorizontally
             ) {
                 Image(
                     painter = painterResource(itemQuiz.image),
-                    contentDescription = itemQuiz.nome
+                    contentDescription = itemQuiz.nome,
+                    modifier = Modifier.size(60.dp)
                 )
                 Text(
                     text = itemQuiz.nome,
@@ -67,8 +71,10 @@ fun TelaConfigQuiz(
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
                 Text(text = "Nível de experiência")
                 Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                     btLevelTelaConfig.forEach { bt ->
@@ -109,23 +115,24 @@ fun TelaConfigQuiz(
             }
             Row(
                 modifier = Modifier,
-                horizontalArrangement = Arrangement.spacedBy(15.dp),
+                horizontalArrangement = Arrangement.spacedBy(30.dp),
 
-            ) {
+                ) {
                 Surface(shape = RoundedCornerShape(100)) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(0.3f)
                             .background(Color.Red)
 
-                            .padding(10.dp)
-                            .clickable {
-                                btCancelar()
-                            }
+                            .padding(5.dp)
                     ) {
                         Text(
                             text = "Cancelar", color = Color.White, fontSize = 16.sp,
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    btCancelar()
+                                },
                             textAlign = TextAlign.Center
                         )
                     }
@@ -133,22 +140,22 @@ fun TelaConfigQuiz(
                 Surface(shape = RoundedCornerShape(100)) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(fraction = .5f)
+                            .fillMaxWidth(fraction = .45f)
                             .background(
-                                    Color.Green
+                                Color.Green
                             )
-                            .padding(10.dp)
-                            .clickable{ btConfirmar() }
+                            .padding(5.dp)
                     ) {
                         Text(
                             text = "Confirmar", color = Color.White, fontSize = 16.sp,
-                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { btConfirmar() },
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
-
             }
-
             Spacer(modifier = Modifier.height(5.dp))
         }
     }

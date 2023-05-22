@@ -17,19 +17,22 @@ import com.igor.appinovatec.R
 
 
 @Composable
-fun CustomDialog(onDismiss: () -> Unit, btContinuar: () -> Unit, btQuestoes: () -> Unit) {
+fun CustomDialog(
+    resultado: String,
+    onDismiss: () -> Unit,
+    btContinuar: () -> Unit,
+    btQuestoes: () -> Unit
+) {
     Dialog(onDismissRequest = onDismiss) {
-        // Conteúdo personalizado da dialog
         Box(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(0.95f)
-                .fillMaxHeight(.8f)
                 .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -38,8 +41,10 @@ fun CustomDialog(onDismiss: () -> Unit, btContinuar: () -> Unit, btQuestoes: () 
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.height(20.dp))
-                    Image(painter = painterResource(id = R.drawable.data), contentDescription = "",
-                    modifier = Modifier.size(150.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.data), contentDescription = "",
+                        modifier = Modifier.size(150.dp)
+                    )
                     Text(text = "Data Science", modifier = Modifier.padding(20.dp))
                 }
 
@@ -49,13 +54,13 @@ fun CustomDialog(onDismiss: () -> Unit, btContinuar: () -> Unit, btQuestoes: () 
                     textAlign = TextAlign.Center
                 )
 
-                Text(text = "Resultado: 3/10")
+                Text(text = "Resultado: $resultado")
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Button(onClick = { btQuestoes() }) {
-                        Text(text = "Questões")
+                        Text(text = "Resultado")
                     }
                     Button(onClick = { btContinuar() }) {
                         Text(text = "Continuar")

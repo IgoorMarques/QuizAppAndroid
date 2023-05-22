@@ -8,6 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,28 +19,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.igor.appinovatec.R
+import com.igor.appinovatec.data.areasQuiz
+import com.igor.appinovatec.model.HomeContentItem
 import com.igor.appinovatec.views.ui.theme.Teal200
 
 
 @Composable
-fun TelaDeAviso(onStartClick: () -> Unit, onCloseClick: () -> Unit) {
+fun TelaDeAviso(infoQuiz: HomeContentItem, onStartClick: () -> Unit, onCloseClick: () -> Unit) {
     Dialog(onDismissRequest = { onCloseClick() }) {
         Box(
             modifier = Modifier
-                .background(Color.White)
-                .fillMaxWidth(0.95f)
-                .fillMaxHeight(0.9f),
+                .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceAround
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Box(
                     modifier = Modifier
                         .align(Start)
-                        .offset(x = 10.dp, y = 10.dp)
+                        .offset(x = 3.dp, y = 3.dp)
                         .clickable { onCloseClick() }
                 ) {
                     Icon(
@@ -47,67 +49,56 @@ fun TelaDeAviso(onStartClick: () -> Unit, onCloseClick: () -> Unit) {
                         contentDescription = "fechar quiz"
                     )
                 }
+                val img = areasQuiz.find { it.id == infoQuiz.id }?.image
                 Image(
-                    painter = painterResource(id = R.drawable.quiz),
+                    painter = painterResource(img ?: R.drawable.checklist),
                     contentDescription = "quiz img",
                     modifier = Modifier.size(100.dp)
                 )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
                 Text(
                     text = "Caro canditado,\n" +
-                            "\n" +
-                            "Você recebeu este formulário com \n" +
-                            "questões técnicas referentes a vaga \n" +
-                            "para Data Science Jr. da XYZ Softwares, \n" +
-                            "como etapa do processo seletivo ao \n" +
-                            "referido cargo!\n" +
+                            "o seguinte questionário conta \n" +
+                            "com questões técnicas referentes a área \n" +
+                            "de ${infoQuiz.assunto}.\n" +
                             "\n" +
                             "Responda este formulário com atenção,\n" +
                             "e após iniciado, não há opção de \n" +
-                            "interrompe-lo para posterior \n" +
-                            "finalização!\n" +
+                            "interrompe-lo, para posterior \n" +
+                            "finalização.\n" +
                             "\n" +
-                            "Em caso de dúvidas, entre em contato \n" +
-                            "com o setor responsável pelo processo\n" +
-                            "seletivo da XYZ Softwares!\n" +
+                            "Caso você saia durante o andamento\n" +
+                            "desse questionário\n" +
+                            "suas respostas não serão salvas.\n" +
                             "\n" +
                             "Boa sorte e máxima atenção!",
                     textAlign = TextAlign.Justify,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                 )
-                Spacer(modifier = Modifier.height(40.dp))
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = 8.dp,
+                Spacer(modifier = Modifier.height(60.dp))
+            }
+            Surface(
+                shape = RoundedCornerShape(8.dp),
+                elevation = 8.dp,
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(0.5f)
+                    .clickable { onStartClick() }
+                    .align(BottomCenter)
+                    .offset((-5).dp),
+            ) {
+                Text(
+                    text = "Iniciar", fontSize = 20.sp,
                     modifier = Modifier
-                        .padding(bottom = 10.dp)
-                        .fillMaxWidth(0.5f)
-                        .clickable { onStartClick() },
-
-                    ) {
-                    Text(
-                        text = "Iniciar", fontSize = 20.sp,
-                        modifier = Modifier
-                            .background(Teal200)
-                            .padding(
-                                start = 10.dp, end = 10.dp, bottom = 5.dp,
-                                top = 5.dp
-                            ),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
+                        .background(Teal200)
+                        .padding(
+                            start = 10.dp, end = 10.dp, bottom = 5.dp,
+                            top = 5.dp
+                        ),
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }
 }
 
-@Preview
-@Composable
-fun VerApp() {
-    TelaDeAviso(onStartClick = {}) {
-    }
-}

@@ -1,20 +1,20 @@
 package com.igor.appinovatec.views.AppScreens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.igor.appinovatec.R
 import com.igor.appinovatec.data.menuMainScreenItens
 import com.igor.appinovatec.model.HomeContentItem
 import com.igor.appinovatec.views.ui.theme.Teal200
@@ -145,45 +145,63 @@ fun TelaItem(
     {
         Column(
             modifier = Modifier
-                .background(backgroundItemQuiz)
-                .padding(10.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .background(backgroundItemQuiz),
+            verticalArrangement = Arrangement.SpaceAround
         ) {
+            Text(
+                text = item.data, fontSize = 12.sp, fontWeight = FontWeight.W500,
+                color = thinColor,
+                modifier = Modifier.fillMaxWidth().padding(end = 5.dp),
+                textAlign = TextAlign.End
+            )
             Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                Modifier.fillMaxWidth()
+                    .padding(start = 15.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = item.title, fontSize = 16.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-                Text(
-                    text = item.data, fontSize = 12.sp, fontWeight = FontWeight.W500,
-                    color = thinColor
-                )
+                Box(modifier = Modifier.size(80.dp)) {
+                    item.item?.let { painterResource(it.image) }?.let {
+                        Image(
+                            painter = it,
+                            contentDescription = "IMG BACKGROUND"
+                        )
+                    }
+                }
+                Column(horizontalAlignment = Alignment.Start,
+                modifier = Modifier.padding(start = 20.dp)) {
+                    Text(
+                        text = item.title, fontSize = 16.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                    Text(text = item.assunto)
+                    Text(text = item.quizStatus, fontSize = 14.sp,)
+                }
             }
-            Text(text = item.assunto)
+
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 1.dp),
+                horizontalArrangement = Arrangement.End
+
             ) {
-                Text(
-                    text = "${item.quizTpo}: ${item.quizStatus}", fontSize = 14.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-                Row(modifier = Modifier) {
+
+                Row(modifier = Modifier.padding(end = 5.dp, bottom = 5.dp)) {
                     Surface(
                         shape = RoundedCornerShape(100),
                         elevation = 6.dp
                     ) {
                         Box(
                             modifier = Modifier
+                                .fillMaxWidth(0.30f)
                                 .background(Teal200)
-                                .clickable { onClick() }
+                                .clickable { onClick() },
+                            contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = item.bt_action, color = Color.White,
-                                modifier = Modifier.padding(horizontal = 8.dp)
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -196,9 +214,7 @@ fun TelaItem(
                         Box(
                             modifier = Modifier
                                 .clickable { onDeleteClick() }
-                                .background(Color.Red, shape = RoundedCornerShape(100))
-
-
+                                .background(Color.Red)
                         ) {
                             Text(
                                 text = "Descartar", color = Color.White,

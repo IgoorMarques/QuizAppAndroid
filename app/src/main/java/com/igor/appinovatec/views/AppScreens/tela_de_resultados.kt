@@ -1,6 +1,5 @@
 package com.igor.appinovatec.views.AppScreens
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.igor.appinovatec.model.HomeContentItem
 import com.igor.appinovatec.model.QuizQuestion
 import com.igor.appinovatec.views.ui.theme.Teal200
 import com.igor.appinovatec.views.ui.theme.backGround
@@ -26,6 +26,7 @@ import com.igor.appinovatec.views.ui.theme.backGround
 
 @Composable
 fun OvervierQuizScreen(
+    quizInfo: HomeContentItem,
     questao: QuizQuestion,
     numQuestaoAtual: Int,
     opcaoSelecionada: String,
@@ -42,7 +43,7 @@ fun OvervierQuizScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            CabecalhoTelaResultados(btFechar)
+            CabecalhoTelaResultados(quizInfo, btFechar)
             Column(
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
@@ -108,6 +109,7 @@ fun OvervierQuizScreen(
 
 @Composable
 fun CabecalhoTelaResultados(
+    quizInfo: HomeContentItem,
     btFechar: () -> Unit
 ) {
 
@@ -134,19 +136,19 @@ fun CabecalhoTelaResultados(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Spacer(modifier = Modifier.height(15.dp))
+                    Text(
+                        text = quizInfo.assunto,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
                 Text(
-                    text = "Data Science",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-                Text(
-                    text = "Feito em 22/10/23 às 14:50",
+                    text = quizInfo.data,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(2.dp)
                 )
                 Text(
-                    text = "Resultado: 5/10",
+                    text = quizInfo.quizStatus,
                     fontSize = 14.sp,
                 )
             }
@@ -170,12 +172,11 @@ fun QuizQuestionResult(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(80.dp, 200.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .heightIn(80.dp, 200.dp),
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = numQuestaoAtual.toString(),
+                    text = "${numQuestaoAtual}.",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -192,7 +193,7 @@ fun QuizQuestionResult(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(ScrollState(0)),
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 questao.alternativas.forEach { opcao ->

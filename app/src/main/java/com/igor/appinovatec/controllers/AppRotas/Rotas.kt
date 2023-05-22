@@ -125,6 +125,7 @@ fun AppNavigation(navController: NavHostController) {
                 mutableStateOf("Não há quizzis por aqui")
             }
 
+            contentItemSelected.value?.infoQuiz?.let { it1 -> Log.i("passei", it1.rota) }
             TelaPrincipal(menuItemSelected = homeItemSelected.value,
                 onMenuItemSelectedChange = {
                     if (it.rota == AppRotas.HOME_emAndamento) {
@@ -149,7 +150,7 @@ fun AppNavigation(navController: NavHostController) {
                         ) {
                             navController.navigate(AppRotas.NOVO_QUIZ_SCREEN)
                         }
-                    } else if (homeItemSelected.value.rota == AppRotas.HOME_emAndamento) {
+                    } else {
                         userQuizes.forEach { item ->
                             if (item.infoQuiz != null) {
                                 TelaItem(item = item.infoQuiz, onClick = {
@@ -169,7 +170,7 @@ fun AppNavigation(navController: NavHostController) {
                         }
                     }
                 }
-                else if (homeItemSelected.value.rota == AppRotas.HOME_PENDENTE) {
+                if (homeItemSelected.value.rota == AppRotas.HOME_PENDENTE) {
                     if (quizesRecebidos.isEmpty()) {
                         EmptyConteudo(
                             msgTelaPrincipal = msgTelaPrincipal.value,
@@ -179,27 +180,8 @@ fun AppNavigation(navController: NavHostController) {
                         }
                     } else {
                         quizesRecebidos.forEach { item ->
-                            item.infoQuiz?.let { it1 ->
-                                TelaItem(item = it1, onClick = { /*TODO*/ },
-                                    onDeleteClick = {
-                                        showAlertDialog.value = true
-                                        contentItemSelected.value = item
-                                    })
-                            }
-                        }
-                    }
-                }
-                else if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
-                    if (historicoQuiz.isEmpty()) {
-                        EmptyConteudo(
-                            msgTelaPrincipal = msgTelaPrincipal.value,
-                            homeItemSelected = homeItemSelected.value.rota
-                        ) {}
-                    } else {
-                        historicoQuiz.forEach { item ->
-                            item.infoQuiz?.let { it1 ->
-                                TelaItem(item = it1,
-                                    onClick = { navController.navigate("${AppRotas.TELA_RESULTADOS}/${it.id}") },
+                            if (item.infoQuiz != null) {
+                                TelaItem(item = item.infoQuiz, onClick = { /*TODO*/ },
                                     onDeleteClick = {
                                         showAlertDialog.value = true
                                         contentItemSelected.value = item
@@ -209,21 +191,39 @@ fun AppNavigation(navController: NavHostController) {
                         }
                     }
                 }
+                if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
+                    if (historicoQuiz.isEmpty()) {
+                        EmptyConteudo(
+                            msgTelaPrincipal = msgTelaPrincipal.value,
+                            homeItemSelected = homeItemSelected.value.rota
+                        ) {}
+                    } else {
+                        historicoQuiz.forEach { item ->
+                            if (item.infoQuiz != null) {
+                                TelaItem(item = item.infoQuiz,
+                                    onClick = { navController.navigate("${AppRotas.TELA_RESULTADOS}/${item.id}") },
+                                    onDeleteClick = {
+                                        contentItemSelected.value = item
+                                        showAlertDialog.value = true
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
                 if (showAlertDialog.value.and(contentItemSelected.value != null)) {
-                    contentItemSelected.value?.infoQuiz?.let { it1 -> Log.i("valorHomeItem", it1.rota) }
                     ConfirmationDialog(message = "Tem certeza que deseja remover esse item?",
                         onDismiss = {
                             showAlertDialog.value = false
                         },
                         onConfirm = {
-
-                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_emAndamento) {
+                            if (homeItemSelected.value.rota == AppRotas.HOME_emAndamento) {
                                 userQuizes.remove(contentItemSelected.value)
                             }
-                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_PENDENTE) {
+                            if (homeItemSelected.value.rota == AppRotas.HOME_PENDENTE) {
                                 quizesRecebidos.remove(contentItemSelected.value)
                             }
-                            if (contentItemSelected.value?.infoQuiz?.rota == AppRotas.HOME_HISTORICO) {
+                            if (homeItemSelected.value.rota == AppRotas.HOME_HISTORICO) {
                                 historicoQuiz.remove(contentItemSelected.value)
                             }
                             showAlertDialog.value = false
@@ -231,15 +231,16 @@ fun AppNavigation(navController: NavHostController) {
                     )
                 }
                 if (mostrarTelaAviso.value) {
-                    TelaDeAviso(onStartClick = {
-                        if (itemSelecionado.value != null) {
-                            navController.navigate("${AppRotas.QUIZ_QUESTIONS}/${itemSelecionado.value!!.id}")
+                    itemSelecionado.value?.infoQuiz?.let { it1 ->
+                        TelaDeAviso(it1, onStartClick = {
+                            if (itemSelecionado.value != null) {
+                                navController.navigate("${AppRotas.QUIZ_QUESTIONS}/${itemSelecionado.value!!.id}")
+                            }
                         }
-                    },
-                        onCloseClick = {
+                        ) {
                             mostrarTelaAviso.value = false
                         }
-                    )
+                    }
                 }
             }
         }
@@ -374,10 +375,10 @@ fun AppNavigation(navController: NavHostController) {
                                             id = quizAtual.id,
                                             title = "Concluído",
                                             assunto = quizAtual.assunto,
-                                            quizTpo = "Resultado",
-                                            quizStatus = "${acertos.value}/${totalQuestoes.value}",
-                                            data = dataHoraAtual(),
-                                            bt_action = "Detalhes"
+                                            quizStatus = "Resultado: ${acertos.value}/${totalQuestoes.value}",
+                                            data = "Feito ${dataHoraAtual()}",
+                                            bt_action = "Detalhes",
+                                            item = areasQuiz.find { it.id == quizAtual.id }
                                         )
                                     )
                                 )
@@ -388,33 +389,22 @@ fun AppNavigation(navController: NavHostController) {
                                     .fillMaxSize()
                                     .background(Teal200)
                             ) {
-
+                                CustomDialog(
+                                    resultado = "${acertos.value}/${totalQuestoes.value}",
+                                    btContinuar = {
+                                        userQuizes.remove(quizAtual)
+                                        navController.navigate(AppRotas.HOME_USER)
+                                    },
+                                    btQuestoes = {
+                                        userQuizes.remove(quizAtual)
+                                        navController.navigate("${AppRotas.TELA_RESULTADOS}/${quizAtual.id}")
+                                    },
+                                    onDismiss = {})
                             }
-                            CustomDialog(btContinuar = {
-                                userQuizes.remove(quizAtual)
-                                navController.navigate(AppRotas.HOME_USER)
-                            },
-                                btQuestoes = {
-                                    userQuizes.remove(quizAtual)
-                                    navController.navigate("${AppRotas.TELA_RESULTADOS}/${quizAtual.id}")
-                                },
-                                onDismiss = {})
-
                         }
                     }
                 }
             }
-        }
-        composable("${AppRotas.TELA_DE_AVISO}/{id}") { infos ->
-            val id = infos.arguments?.getString("id")
-            val mostrarTelaDeAviso = remember {
-                mutableStateOf(false)
-            }
-
-            TelaDeAviso(onStartClick = { navController.navigate(AppRotas.QUIZ_QUESTIONS) },
-                onCloseClick = {
-                    navController.navigate(AppRotas.HOME_USER)
-                })
         }
         composable("${AppRotas.TELA_DE_CONFIGURACAO_QUIZ}/{areaId}") { navBackStackEntry ->
             val btNivelSelected = remember {
@@ -459,10 +449,11 @@ fun AppNavigation(navController: NavHostController) {
                                     id = item.id,
                                     title = if (btQuizConfigSelected.value == btQuizConfig.first().name) "Iniciado" else "Não iniciado",
                                     assunto = item.nome,
-                                    quizStatus = "Questões: 0/${btQtdQuestoesSelected.value}",
-                                    data = dataHoraAtual(),
+                                    quizStatus = "Questões: ${btQtdQuestoesSelected.value}",
+                                    data = "Criado ${dataHoraAtual()}",
                                     bt_action = "Iniciar",
-                                    rota = AppRotas.HOME_emAndamento
+                                    rota = AppRotas.HOME_emAndamento,
+                                    item = item
                                 )
                             )
                         )
@@ -507,29 +498,31 @@ fun AppNavigation(navController: NavHostController) {
                     acertou.value =
                         quizAtual.alternativasSelecionadas[index.value] == questoes[index.value].alternativaCorreta
                     Log.i("valorIndex", questoes[index.value].alternativaCorreta)
-
-                    OvervierQuizScreen(questao = questoes[index.value],
-                        numQuestaoAtual = index.value + 1,
-                        opcaoSelecionada = selectedOption.value,
-                        btFechar = { navController.navigate(AppRotas.HOME_USER) },
-                        btAvancar = {
-                            if (index.value <= totalQuestoes - 1) {
-                                index.value += 1
-                            }
-                            if (index.value > totalQuestoes - 1) {
-                                index.value = totalQuestoes - 1
-                            }
-                            selectedOption.value = alternativasSelecionadas[index.value]
-                        },
-                        btVotlar = {
-                            if (index.value > 0) {
-                                index.value -= 1
-                            }
-                            if (index.value < 0) {
-                                index.value = 0
-                            }
-                            selectedOption.value = alternativasSelecionadas[index.value]
-                        })
+                    quizAtual.infoQuiz?.let { it1 ->
+                        OvervierQuizScreen(questao = questoes[index.value],
+                            quizInfo = it1,
+                            numQuestaoAtual = index.value + 1,
+                            opcaoSelecionada = selectedOption.value,
+                            btFechar = { navController.navigate(AppRotas.HOME_USER) },
+                            btAvancar = {
+                                if (index.value <= totalQuestoes - 1) {
+                                    index.value += 1
+                                }
+                                if (index.value > totalQuestoes - 1) {
+                                    index.value = totalQuestoes - 1
+                                }
+                                selectedOption.value = alternativasSelecionadas[index.value]
+                            },
+                            btVotlar = {
+                                if (index.value > 0) {
+                                    index.value -= 1
+                                }
+                                if (index.value < 0) {
+                                    index.value = 0
+                                }
+                                selectedOption.value = alternativasSelecionadas[index.value]
+                            })
+                    }
 
                 }
 
